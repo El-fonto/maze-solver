@@ -8,3 +8,5 @@ class Window:
         self.root = Tk()
         self.root.title()
         self.canvas = Canvas()
+        self.canvas.pack()
+        self.running = False
