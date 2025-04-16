@@ -25,7 +25,7 @@ class Window:
         self.__canvas = Canvas(self.__root, bg="white", height=height, width=width)
         self.__canvas.pack(fill=BOTH, expand=1)
         self.__running = False
-        self.__root.protocol("WM_DELETE_WINDOW", self.close())
+        self.__root.protocol("WM_DELETE_WINDOW", self.close)
 
     def redraw(self):
         self.__root.update_idletasks()
@@ -37,7 +37,7 @@ class Window:
             self.redraw()
         print("window closed...")
 
-    def draw_line(self, line: Line, fill_color: str) -> None:
+    def draw_line(self, line: Line, fill_color: str = "black") -> None:
         line.draw(self.__canvas, fill_color)
 
     def close(self):
