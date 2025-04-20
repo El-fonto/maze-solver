@@ -1,24 +1,23 @@
 from graphics import Window
-from cell import Cell
+from maze import Maze
 
 
 def main():
     win = Window(800, 600)
-    c = Cell(win)
-    c.has_left_wall = False
-    c.draw(50, 50, 100, 100)
 
-    c = Cell(win)
-    c.has_right_wall = False
-    c.draw(125, 125, 200, 200)
-
-    c = Cell(win)
-    c.has_bottom_wall = False
-    c.draw(225, 225, 250, 250)
-
-    c = Cell(win)
-    c.has_top_wall = False
-    c.draw(300, 300, 500, 500)
+    m = Maze(
+        x1=20,
+        y1=20,
+        num_rows=10,
+        num_cols=10,
+        cell_size_x=20,
+        cell_size_y=20,
+        win=win,
+    )
+    print(f"Number of columns: {len(m._cells)}")  # Expecting 5
+    print(
+        f"Number of rows in each column: {[len(col) for col in m._cells]}"
+    )  # Expecting [5, 5, 5, 5, 5]
 
     win.wait_for_close()
 

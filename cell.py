@@ -13,19 +13,22 @@ class Cell:
 
         self._win = window
 
-        self._x1 = None
-        self._x2 = None
-        self._y1 = None
-        self._y2 = None
+        self._x1: int | None = None
+        self._x2: int | None = None
+        self._y1: int | None = None
+        self._y2: int | None = None
 
-    def draw(self, x1, y1, x2, y2) -> None:
-        if x1 >= x2 or y1 >= y2:
-            raise ValueError("Coordinates must satisfy x1 < x2 and y1 < y2.")
+    def draw(self, x1: int, y1: int, x2: int, y2: int) -> None:
+        if self._win is None:
+            return
 
+        # values updated to use later
         self._x1 = x1
         self._x2 = x2
         self._y1 = y1
         self._y2 = y2
+
+        # corners
         top_left = Point(self._x1, self._y1)
         top_right = Point(self._x2, self._y1)
         bottom_left = Point(self._x1, self._y2)
@@ -46,3 +49,37 @@ class Cell:
         if self.has_bottom_wall:
             bottom_wall = Line(bottom_left, bottom_right)
             self._win.draw_line(bottom_wall)
+
+    def draw_move(self, to_cell, undo: bool = False) -> None:
+        self_center = Point(((self._x1 + self._x2) // 2), ((self._y1 + self._y2) // 2))
+
+        to_cell_center = Point(
+            ((to_cell._x1 + to_cell._x2) / 2), ((to_cell._y1 + to_cell._y2) / 2)
+        )
+
+        line = Line(self_center, to_cell_center)
+
+        if not undo:
+            self._win.draw_line(line, fill_color="red")
+        else:
+            self._win.draw_line(line, fill_color="gray")
+
+    def draw_from_center(
+        self, center_x: int, center_y: int, cell_size_x: int, cell_size_y: int
+    ):
+        """
+        Calculate all coordinates from center point and dimensions
+        """
+        x1 = center_x - (cell_size_x // 2)
+        y1 = center_y - (cell_size_y // 2)
+        x2 = center_x + (cell_size_x // 2)
+        y2 = center_y + (cell_size_y // 2)
+
+        self._x1 = x1
+        self._y1 = y1
+        self._x2 = x2
+        self._y2 = y2
+
+        self.draw(x1, y1, x2, y2)
+
+        # return (x1, y1, x2, y2)
