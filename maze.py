@@ -1,4 +1,5 @@
 import time
+import random
 from graphics import Window
 from cell import Cell
 
@@ -13,6 +14,7 @@ class Maze:
         cell_size_x: int,  # determine cell size
         cell_size_y: int,  # determine cell size
         win: Window | None = None,
+        seed: int | None = None,
     ) -> None:
         self._x1 = x1
         self._y1 = y1
@@ -21,10 +23,26 @@ class Maze:
         self._cell_size_x = cell_size_x
         self._cell_size_y = cell_size_y
         self._win = win
+        self._seed = seed
+
+        if self._seed is not None:
+            random.seed(self._seed)
 
         self._cells: list[list[Cell]] = []  # list matrix
 
         self._create_cells()
+        self._break_entrance_and_exit()
+
+    def _break_entrance_and_exit(self):
+        """First cell doesn't have top wall and last cell doesn't have bottom"""
+        entrance_cell = self._cells[0][0]
+        exit_cell = self._cells[self._num_cols - 1][self._num_rows - 1]
+
+        entrance_cell.has_top_wall = False
+        self._draw_cell(0, 0)
+
+        exit_cell.has_bottom_wall = False
+        self._draw_cell(self._num_cols - 1, self._num_rows - 1)
 
     def _create_cells(self):
         """Populate a two level list and draw cells"""
@@ -39,7 +57,7 @@ class Maze:
             for j in range(self._num_rows):
                 self._draw_cell(i, j)
 
-    def _draw_cell(self, i, j):
+    def _draw_cell(self, i: int, j: int):
         """calculate position and draw from draw the cell"""
         if self._win is None:
             return
