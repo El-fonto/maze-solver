@@ -34,9 +34,17 @@ class Maze:
         self._break_entrance_and_exit()
 
     def _break_walls_r(self, i, j):
+        # for
+        c = self._cells[i][j]
 
-        # for 
-        self._cells[]
+        c._visited = True
+
+        while True:
+            #!TODO: This is my current logic
+            # draw cell is going to move into _break_walls_r
+            # to break them before drawing them
+
+            self._draw_cell(i, j)
 
     def _break_entrance_and_exit(self):
         """First cell doesn't have top wall and last cell doesn't have bottom"""
@@ -60,7 +68,7 @@ class Maze:
 
         for i in range(self._num_cols):
             for j in range(self._num_rows):
-                self._draw_cell(i, j)
+                self._break_walls_r(i, j)
 
     def _draw_cell(self, i: int, j: int):
         """calculate position and draw from draw the cell"""
