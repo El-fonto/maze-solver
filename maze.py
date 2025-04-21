@@ -33,6 +33,11 @@ class Maze:
         self._create_cells()
         self._break_entrance_and_exit()
 
+    def _break_walls_r(self, i, j):
+
+        # for 
+        self._cells[]
+
     def _break_entrance_and_exit(self):
         """First cell doesn't have top wall and last cell doesn't have bottom"""
         entrance_cell = self._cells[0][0]
