@@ -12,7 +12,7 @@ class Maze:
         num_cols: int,
         cell_size_x: int,  # determine cell size
         cell_size_y: int,  # determine cell size
-        win: Window,
+        win: Window | None = None,
     ) -> None:
         self._x1 = x1
         self._y1 = y1
@@ -34,22 +34,26 @@ class Maze:
                 c = Cell(self._win)
                 column.append(c)
             self._cells.append(column)
+
         for i in range(self._num_cols):
             for j in range(self._num_rows):
                 self._draw_cell(i, j)
 
     def _draw_cell(self, i, j):
         """calculate position and draw from draw the cell"""
+        if self._win is None:
+            return
         c = self._cells[i][j]
 
         cell_x = self._x1 + i * self._cell_size_x
         cell_y = self._y1 + j * self._cell_size_y
 
         c.draw_from_center(cell_x, cell_y, self._cell_size_x, self._cell_size_y)
+
         self._animate()
 
     def _animate(self):
-        """visualize the algorith"""
+        """visualize the algoritm"""
         if self._win is None:
             return
         self._win.redraw()
