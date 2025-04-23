@@ -3,21 +3,19 @@ from maze import Maze
 
 
 def main():
-    win = Window(800, 600)
+    num_rows = 12
+    num_cols = 16
+    scr_margin = 50
+    screen_width = 800
+    screen_height = 600
+    cell_size_x = (screen_width - 2 * scr_margin) // num_cols
+    cell_size_y = (screen_height - 2 * scr_margin) // num_rows
+    win = Window(screen_width, screen_height)
+    seed = 10
 
-    m = Maze(
-        x1=50,
-        y1=50,
-        num_rows=5,
-        num_cols=5,
-        cell_size_x=20,
-        cell_size_y=20,
-        win=win,
+    maze = Maze(
+        scr_margin, scr_margin, num_rows, num_cols, cell_size_x, cell_size_y, win, seed
     )
-    print(f"Number of columns: {len(m._cells)}")  # Expecting 5
-    print(
-        f"Number of rows in each column: {[len(col) for col in m._cells]}"
-    )  # Expecting [5, 5, 5, 5, 5]
 
     win.wait_for_close()
 

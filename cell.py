@@ -18,7 +18,7 @@ class Cell:
         self._y1: int | None = None
         self._y2: int | None = None
 
-        self._visited = False
+        self.visited = False
 
     def draw(self, x1: int, y1: int, x2: int, y2: int) -> None:
         if self._win is None:
