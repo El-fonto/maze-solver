@@ -78,9 +78,9 @@ class Cell:
         line = Line(self_center, to_cell_center)
 
         if not undo:
-            self._win.draw_line(line, fill_color="red")
+            self._win.draw_line(line, fill_color="green")
         else:
-            self._win.draw_line(line, fill_color="gray")
+            self._win.draw_line(line, fill_color="red")
 
     def draw_from_center(
         self, center_x: int, center_y: int, cell_size_x: int, cell_size_y: int
@@ -99,5 +99,3 @@ class Cell:
         self._y2 = y2
 
         self.draw(x1, y1, x2, y2)
-
-        # return (x1, y1, x2, y2)
