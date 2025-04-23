@@ -9,8 +9,8 @@ class Maze:
         self,
         x1: int,  # initial position of the maze
         y1: int,  # initial position of the maze
-        num_rows: int,
         num_cols: int,
+        num_rows: int,
         cell_size_x: int,  # determine cell size
         cell_size_y: int,  # determine cell size
         win: Window | None = None,
@@ -18,8 +18,8 @@ class Maze:
     ) -> None:
         self._x1 = x1
         self._y1 = y1
-        self._num_rows = num_rows
         self._num_cols = num_cols
+        self._num_rows = num_rows
         self._cell_size_x = cell_size_x
         self._cell_size_y = cell_size_y
         self._win = win
@@ -32,18 +32,23 @@ class Maze:
 
         self._create_cells()
         self._break_entrance_and_exit()
+        self._break_walls_r(0, 0)
+        self._reset_cells_visited()
+
+    def _reset_cells_visited(self):
+        for col in self._cells:
+            for cell in col:
+                cell.visited = False
 
     def _break_walls_r(self, i, j):
-        # for
         c = self._cells[i][j]
 
         c.visited = True
 
         while True:
-            cell_position = [i, j]
             poss_directions = []
 
-            # up [i: curr_col][j-1: row above]
+            # up [i: current row][j-1: row above]
             if j > 0 and not self._cells[i][j - 1].visited:
                 poss_directions.append((i, j - 1, "up"))
             # left
@@ -57,7 +62,7 @@ class Maze:
                 poss_directions.append((i, j + 1, "down"))
 
             if len(poss_directions) == 0:
-                self._draw_cell(cell_position[0], cell_position[1])
+                self._draw_cell(i, j)
                 return
 
             # pick random direction from the list
@@ -119,8 +124,6 @@ class Maze:
             for j in range(self._num_rows):
                 self._draw_cell(i, j)
 
-        self._break_walls_r(0, 0)
-
     def _draw_cell(self, i: int, j: int):
         """calculate position and draw from draw the cell"""
         if self._win is None:
@@ -139,4 +142,4 @@ class Maze:
         if self._win is None:
             return
         self._win.redraw()
-        time.sleep(0.005)
+        time.sleep(0.05)

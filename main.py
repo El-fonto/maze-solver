@@ -3,8 +3,8 @@ from maze import Maze
 
 
 def main():
-    num_rows = 12
-    num_cols = 16
+    num_rows = 4
+    num_cols = 6
     scr_margin = 50
     screen_width = 800
     screen_height = 600
@@ -14,7 +14,7 @@ def main():
     seed = 10
 
     maze = Maze(
-        scr_margin, scr_margin, num_rows, num_cols, cell_size_x, cell_size_y, win, seed
+        scr_margin, scr_margin, num_cols, num_rows, cell_size_x, cell_size_y, win, seed
     )
 
     win.wait_for_close()
