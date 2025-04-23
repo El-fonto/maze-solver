@@ -23,10 +23,9 @@ class Maze:
         self._cell_size_x = cell_size_x
         self._cell_size_y = cell_size_y
         self._win = win
-        self._seed = seed
 
-        if self._seed is not None:
-            random.seed(self._seed)
+        if seed:
+            random.seed(seed)
 
         self._cells: list[list[Cell]] = []  # list matrix
 
@@ -34,6 +33,48 @@ class Maze:
         self._break_entrance_and_exit()
         self._break_walls_r(0, 0)
         self._reset_cells_visited()
+
+    def solve(self):
+        self._solve_r(i=0, j=0)
+
+    def _solve_r(self, i, j):
+        self._animate()
+
+        c = self._cells[i][j]
+        c.visited = True
+
+        # end goal
+        if c == self._cells[self._num_cols - 1][self._num_rows - 1]:
+            return True
+
+        #!TODO:
+        # I need to append all posible direciotns in a list to iterate through _create_cells
+        # After that, I need to draw the move between c and the new direction.
+        # save the call of the recursive _solve_r(i=visited_i, j=visited_j)
+        # if that variable is True: return True
+        # else: moving_to_cell.draw_move(self, to_cell=original, undo: bool = True)
+        # After the loop, if no directions returned True, return False.
+        # No else, just write what happens after the loop
+        #
+
+        poss_directions = []
+
+        # up [i: current row][j-1: row above]
+        if (
+            j > 0
+            and not self._cells[i][j - 1].has_bottom_wall
+            and not self._cells[i][j - 1].visited
+        ):
+            poss_directions.append((i, j - 1, "up"))
+        # left
+        if i > 0 and not self._cells[i - 1][j].visited:
+            poss_directions.append((i - 1, j, "left"))
+        # right
+        if i < self._num_cols - 1 and not self._cells[i + 1][j].visited:
+            poss_directions.append((i + 1, j, "right"))
+        # down
+        if j < self._num_rows - 1 and not self._cells[i][j + 1].visited:
+            poss_directions.append((i, j + 1, "down"))
 
     def _reset_cells_visited(self):
         for col in self._cells:
